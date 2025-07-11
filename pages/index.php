@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <main>
+        Salama aby o
+    </main>
 </body>
 </html>
