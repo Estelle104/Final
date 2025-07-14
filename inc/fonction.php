@@ -297,5 +297,36 @@ function get_fiche_membre($id_membre) {
         'categories' => array_values($categories)
     ];
 }
+
+
+function upDateEmprunt($newdate, $id_membre, $id_obet){
+    include('base.php');
+
+    $nom = mysqli_real_escape_string($bdd, $nom);
+    $now = date('Y-m-d H:i:s');
+    $datetime = DateTime::createFromFormat('Y-m-d\TH:i', $newdate);
+   
+    $date_mysql = $datetime->format('Y-m-d H:i:s');
+    $sql = "UPDATE TABLE Final_emprunt SET (date_emprunt,date_retour, id_membre) VALUES ('$now','$date_mysql','$id_membre') WHERE id_objet = '$id_obet'";
+
+    $query = mysqli_query($bdd, $sql);
+
+    if (!$query) {
+        echo "Erreur SQL : " . mysqli_error($bdd);
+    }
+
+    return $sql;
+}
+
+function joursRestants($date_future) {
+    $now = time();
+    $future = strtotime($date_future);
+    
+    if (!$future || $future <= $now) {
+        return 0;
+    }
+    
+    return ceil(($future - $now) / (60 * 60 * 24));
+}
     
 ?>

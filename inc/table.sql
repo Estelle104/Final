@@ -110,7 +110,7 @@ INSERT INTO Final_emprunt (id_objet, id_membre, date_emprunt, date_retour) VALUE
 (25, 1, '2023-10-09 17:00:00', '2023-10-16 17:00:00'),  -- Alice emprunte la clé dynamométrique de Charlie
 (31, 3, '2023-10-10 12:10:00', '2023-10-17 12:10:00');  -- Charlie emprunte le rasoir de Diana
 
-UPDATE Final_emprunt SET date_retour = '2030-12-01 14:00:00';
+UPDATE Final_emprunt SET date_retour = '2023-12-01 14:00:00';
 
 CREATE OR REPLACE VIEW v_emprunts_en_cours AS
 SELECT o.nom_objet, i.nom_image,e.date_emprunt,

@@ -1,6 +1,8 @@
 <?php
 include('../inc/fonction.php');
+session_start();
 $donne = liste_objets_empruntes();
+
 
 ?>
 <!DOCTYPE html>
@@ -45,8 +47,8 @@ $donne = liste_objets_empruntes();
                 $isBorrowed = !empty($d['date_retour']) && strtotime($d['date_retour']) > time();
             ?>
 
-<div class="col-md-6 col-lg-4 col-xl-3">
-                        <a href="fiche_upload.php?id_img_principale=<?= $d['id_image'] ?>&&id_objet=<?= $d['id_objet'] ?>">
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <a href="fiche_upload.php?id_img_principale=<?= $d['id_image'] ?>&&id_objet=<?= $d['id_objet'] ?>">
                         <div class="card h-100 border-0 shadow-sm objet-card">
                             <img src="../assets/image/<?= $d['nom_image'] ?>" class="card-img-top objet-image" alt="<?= $d['nom_objet'] ?>">
                             <div class="card-body">
@@ -71,18 +73,27 @@ $donne = liste_objets_empruntes();
                                 </ul>
                             </div>
                             <div class="card-footer bg-transparent border-0">
-                                <span class="badge rounded-pill <?= $isBorrowed ? 'bg-danger' : 'bg-success' ?>">
-                                    <?= $isBorrowed ? 'Emprunté' : 'Disponible' ?>
-                                </span>
                                 <a href="details_objet.php?id=<?= $d['id_objet'] ?>" class="btn btn-sm btn-outline-primary float-end">
                                     <i class="fas fa-eye"></i> Détails
                                 </a>
+                                <?php if (!$isBorrowed) { ?>
+                                    <a href="emprunt.php?id_membre=<?= $d['id_membre'] ?>&id_objet=<?= $d['id_objet'] ?>">
+                                        <input type="button" value="Emprunter">
+                                    </a>
+                                <?php } ?>
+                                    <?php if($isBorrowed){?>
+                                    <span class="badge rounded-pill <?= $isBorrowed ? 'bg-danger' : 'bg-success' ?>">
+                                        Disponible dans <?= $_SESSION['newDate']?> j;
+                                </span>
+                                <?php } ?>
+                                
+
                             </div>
-                            <a href="fiche.php?id_objet=<?=$d['id_objet'] ?>&nom_image=<?= $d['nom_image'] ?>&id_image=<?= $d['id_image'] ?>">Aller a la fiche</a>
+                            <a href="fiche.php?id_objet=<?= $d['id_objet'] ?>&nom_image=<?= $d['nom_image'] ?>&id_image=<?= $d['id_image'] ?>">Aller a la fiche</a>
                             <a href="ficheMembre.php?id_membre=<?= $d['id_membre'] ?>">Fiche membre</a>
                         </div>
                     </a>
-                    </div>
+                </div>
             <?php } ?>
         </div>
     </main>
