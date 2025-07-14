@@ -69,7 +69,7 @@
                         </form>
                         
                         <div class="text-center mt-4">
-                            <a href="modele.php" class="btn btn-outline-primary">
+                            <a href="listeObjet.php" class="btn btn-outline-primary">
                                 <i class="fas fa-arrow-left me-2"></i>Retour à la liste
                             </a>
                         </div>
