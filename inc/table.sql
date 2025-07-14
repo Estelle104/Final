@@ -155,6 +155,7 @@ LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet
 JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie;
 
 
+<<<<<<< HEAD
 CREATE OR REPLACE TABLE Final_sous_image(
     id_sous_image INT AUTO_INCREMENT PRIMARY KEY,
     id_objet INT,
@@ -181,3 +182,5 @@ INSERT INTO Final_sous_image (id_objet, id_image_principale, nom_sous_image) VAL
 (35, 35, 'diagnostic_ecran.jpg'),
 (38, 38, 'fouet_detail_grille.jpg');
 
+=======
+>>>>>>> efa28aa (v2.1Estelle)

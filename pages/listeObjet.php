@@ -44,40 +44,43 @@ $donne = liste_objets_empruntes();
 
                 $isBorrowed = !empty($d['date_retour']) && strtotime($d['date_retour']) > time();
             ?>
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card h-100 border-0 shadow-sm objet-card">
-                        <img src="../assets/image/<?= $d['nom_image'] ?>" class="card-img-top objet-image" alt="<?= $d['nom_objet'] ?>">
-                        <div class="card-body">
-                            <h5 class="card-title objet-title"><?= $d['nom_objet'] ?></h5>
 
-                            <ul class="list-unstyled objet-meta">
-                                <li class="mb-2">
-                                    <i class="fas fa-user text-primary me-2"></i>
-                                    <span>Propriétaire: <?= $d['emprunteur'] ?></span>
-                                </li>
+<div class="col-md-6 col-lg-4 col-xl-3">
+                        <a href="fiche_upload.php?id_img_principale=<?= $d['id_image'] ?>">
+                        <div class="card h-100 border-0 shadow-sm objet-card">
+                            <img src="../assets/image/<?= $d['nom_image'] ?>" class="card-img-top objet-image" alt="<?= $d['nom_objet'] ?>">
+                            <div class="card-body">
+                                <h5 class="card-title objet-title"><?= $d['nom_objet'] ?></h5>
 
-                                <?php if ($isBorrowed): ?>
+                                <ul class="list-unstyled objet-meta">
                                     <li class="mb-2">
-                                        <i class="fas fa-calendar-alt text-primary me-2"></i>
-                                        <span>Emprunté le: <?= date('d/m/Y', strtotime($d['date_emprunt'])) ?></span>
+                                        <i class="fas fa-user text-primary me-2"></i>
+                                        <span>Propriétaire: <?= $d['emprunteur'] ?></span>
                                     </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-undo text-primary me-2"></i>
-                                        <span class="return-date">Retour: <?= date('d/m/Y', strtotime($d['date_retour'])) ?></span>
-                                    </li>
-                                <?php endif; ?>
-                            </ul>
+
+                                    <?php if ($isBorrowed): ?>
+                                        <li class="mb-2">
+                                            <i class="fas fa-calendar-alt text-primary me-2"></i>
+                                            <span>Emprunté le: <?= date('d/m/Y', strtotime($d['date_emprunt'])) ?></span>
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-undo text-primary me-2"></i>
+                                            <span class="return-date">Retour: <?= date('d/m/Y', strtotime($d['date_retour'])) ?></span>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <span class="badge rounded-pill <?= $isBorrowed ? 'bg-danger' : 'bg-success' ?>">
+                                    <?= $isBorrowed ? 'Emprunté' : 'Disponible' ?>
+                                </span>
+                                <a href="details_objet.php?id=<?= $d['id_objet'] ?>" class="btn btn-sm btn-outline-primary float-end">
+                                    <i class="fas fa-eye"></i> Détails
+                                </a>
+                            </div>
                         </div>
-                        <div class="card-footer bg-transparent border-0">
-                            <span class="badge rounded-pill <?= $isBorrowed ? 'bg-danger' : 'bg-success' ?>">
-                                <?= $isBorrowed ? 'Emprunté' : 'Disponible' ?>
-                            </span>
-                            <a href="details_objet.php?id=<?= $d['id_objet'] ?>" class="btn btn-sm btn-outline-primary float-end">
-                                <i class="fas fa-eye"></i> Détails
-                            </a>
-                        </div>
+                    </a>
                     </div>
-                </div>
             <?php } ?>
         </div>
     </main>

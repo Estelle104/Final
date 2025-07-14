@@ -1,10 +1,8 @@
 <?php
 include('../inc/fonction.php');
 
-// Récupérer toutes les catégories disponibles
-$categories = get_all_categories(); // Vous devez créer cette fonction dans fonction.php
+$categories = get_all_categories(); 
 
-// Vérifier si une catégorie est sélectionnée
 $categorie_selectionnee = $_GET['categorie'] ?? null;
 $liste = [];
 if ($categorie_selectionnee !== null && $categorie_selectionnee !== '') {
