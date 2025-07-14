@@ -2,7 +2,7 @@
     include('../inc/fonction.php');
     $id_image_principale = $_GET['id_img_principale'];
     $id_objet = $_GET['id_objet'];
-    echo $id_objet;
+    // echo $id_objet;
     // $id_image_principale = 7;
     $sous_image = get_sous_image($id_image_principale);
 

@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sous_image']) && $id
     $newName = $originalName . '_' . uniqid() . '.' . $extension;
 
     if (move_uploaded_file($file['tmp_name'], $uploadDir . $newName)) {
-        add_sous_image($id_img_principale, $newName, $id_objet);
+         add_sous_image($id_img_principale, $newName, $id_objet);
 
         header('Location: fiche_upload.php?id_img_principale=' . urlencode($id_img_principale) . '&id_objet=' . urlencode($id_objet) . '&success=1');
         exit;

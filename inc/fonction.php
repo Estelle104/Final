@@ -161,13 +161,24 @@
     
         return $categories;
     }
-    function add_sous_image($id_image_principale,$nom,$id_objet){
+    function add_sous_image($id_image_principale, $nom, $id_objet){
         include('base.php');
-
-        $sql="INSERT INTO Final_sous_image (id_objet,id_image_principale,nom_sous_image) VALUES($id_image_principale,$id_objet,$nom)";
+    
+        // Protection contre injection SQL (minimum)
+        $nom = mysqli_real_escape_string($bdd, $nom);
+    
+        $sql = "INSERT INTO Final_sous_image (id_objet, id_image_principale, nom_sous_image)
+                VALUES ($id_objet, $id_image_principale, '$nom')";
+    
         $query = mysqli_query($bdd, $sql);
-
+    
+        if (!$query) {
+            echo "Erreur SQL : " . mysqli_error($bdd);
+        }
+    
+        return $sql;
     }
+    
 
     
     
