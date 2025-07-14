@@ -1,7 +1,8 @@
 <?php
     include('../inc/fonction.php');
     $id_image_principale = $_GET['id_img_principale'];
-    echo $id_image_principale;
+    $id_objet = $_GET['id_objet'];
+    // echo $id_objet;
     // $id_image_principale = 7;
     $sous_image = get_sous_image($id_image_principale);
 
@@ -31,6 +32,7 @@
             <h2></h2>
             <form action="traitement_upload.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id_img_principale" value="<?= $id_image_principale ?>">
+                <input type="hidden" name="id_objet" value="<?= $id_objet ?>">
               <div class="form-group">
                 <label for="media">Fichier</label>
                 <input type="file" id="sous_image" name="sous_image" accept="image/*" required>

@@ -46,7 +46,7 @@ $donne = liste_objets_empruntes();
             ?>
 
 <div class="col-md-6 col-lg-4 col-xl-3">
-                        <a href="fiche_upload.php?id_img_principale=<?= $d['id_image'] ?>">
+                        <a href="fiche_upload.php?id_img_principale=<?= $d['id_image'] ?>&&id_objet=<?= $d['id_objet'] ?>">
                         <div class="card h-100 border-0 shadow-sm objet-card">
                             <img src="../assets/image/<?= $d['nom_image'] ?>" class="card-img-top objet-image" alt="<?= $d['nom_objet'] ?>">
                             <div class="card-body">

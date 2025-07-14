@@ -1,26 +1,28 @@
 <?php
 require("../inc/fonction.php");
-
 session_start();
 
 $uploadDir = __DIR__ . '/../assets/image/';
-$maxSize = 20 * 1024 * 1024; 
-$id_img_principale = $_POST['id_img_principale'];
+$maxSize = 20 * 1024 * 1024;  // 20 Mo
+$allowedMimeTypes = ['image/jpg', 'image/jpeg', 'image/png'];
 
+$id_img_principale = $_POST['id_img_principale'] ?? null;
+$id_objet = $_POST['id_objet'] ?? null;
 
-$allowedMimeTypes = ['image/jpg','image/jpeg','image/png'];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sous_image'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sous_image']) && $id_img_principale && $id_objet) {
     $file = $_FILES['sous_image'];
+
     if ($file['size'] > $maxSize) {
-        header('Location:fiche_upload.php?id_img_principale=<?=  ?>');
+        header('Location: fiche_upload.php?id_img_principale=' . urlencode($id_img_principale) . '&erreur=taille');
+        exit;
     }
 
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
+
     if (!in_array($mime, $allowedMimeTypes)) {
-        echo "Type de fichier non autorisé : " . $mime;
+        header('Location: fiche_upload.php?id_img_principale=' . urlencode($id_img_principale) . '&erreur=type');
         exit;
     }
 
@@ -29,14 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sous_image'])) {
     $newName = $originalName . '_' . uniqid() . '.' . $extension;
 
     if (move_uploaded_file($file['tmp_name'], $uploadDir . $newName)) {
-        echo "Fichier uploadé avec succès : " . $newName;
-        
-        get_sous_image($id_img_principale, $newName);
+        add_sous_image($id_img_principale, $newName, $id_objet);
 
-        header('Location:fiche_upload.php?id_img_principale=<?= $id_img_principale ?>');
+        header('Location: fiche_upload.php?id_img_principale=' . urlencode($id_img_principale) . '&success=1');
+        exit;
     } else {
-        $bool = move_uploaded_file($file['tmp_name'], $uploadDir . $newName);
+        header('Location: fiche_upload.php?id_img_principale=' . urlencode($id_img_principale) . '&erreur=upload');
+        exit;
     }
 } else {
-    echo "Aucun fichier reçu.";
+    echo "Aucun fichier reçu ou données manquantes.";
 }
