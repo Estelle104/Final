@@ -19,6 +19,11 @@
     </header>
     <main>
         <div class="container">
+            <?php foreach($sous_image as $donne) {?>
+                
+            <?php }?>
+        </div>
+        <div class="container">
         <div class="upload-container">
             <h2></h2>
             <form action="traitement_upload.php" method="post" enctype="multipart/form-data">

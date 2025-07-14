@@ -157,7 +157,27 @@ JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie;
 
 CREATE OR REPLACE TABLE Final_sous_image(
     id_sous_image INT AUTO_INCREMENT PRIMARY KEY,
+    id_objet INT,
     id_image_principale INT,
     nom_sous_image VARCHAR(100),
     FOREIGN KEY (id_image_principale) REFERENCES Final_image_objet(id_image) 
 );
+
+-- Insertion de sous-images avec id_objet et id_image_principale
+INSERT INTO Final_sous_image (id_objet, id_image_principale, nom_sous_image) VALUES
+(1, 1, 'sechoir_vue_arriere.jpg'),
+(1, 1, 'sechoir_bouton_zoom.jpg'),
+(3, 3, 'perceuse_cote.jpg'),
+(3, 3, 'perceuse_detail_poignee.jpg'),
+(7, 7, 'mixeur_lame.jpg'),
+(8, 8, 'robot_accessoires.jpg'),
+(13, 13, 'marteau_manche.jpg'),
+(17, 17, 'poele_fond.jpg'),
+(20, 20, 'scie_sauteuse_vue_dessus.jpg'),
+(21, 21, 'epilateur_accessoires.jpg'),
+(25, 25, 'cle_dyno_detail.jpg'),
+(27, 27, 'cocotte_interieur.jpg'),
+(31, 31, 'rasoir_dos.jpg'),
+(35, 35, 'diagnostic_ecran.jpg'),
+(38, 38, 'fouet_detail_grille.jpg');
+
