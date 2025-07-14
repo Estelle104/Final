@@ -46,11 +46,12 @@
       <?php else: ?>
         <div class="d-flex">
           <a href="login.php?page=connexion" class="btn btn-outline-primary me-2">
-            <i class="bi bi-box-arrow-in-right"></i> Connexion
+            <i class="bi bi-boarrow-in-right"></i> Connexion
           </a>
           <a href="login.php?page=inscription" class="btn btn-primary">
             <i class="bi bi-person-plus"></i> Inscription
           </a>
+       
           <a href="deconnexion.php" class="btn btn-primary">
             <i class="bi bi-person-plus"></i> Deconnexion
           </a>

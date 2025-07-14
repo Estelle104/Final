@@ -180,6 +180,122 @@
     }
     
 
+// function tab($a,$b){
+//     $x=array();
+//     $i=0;
+//     for ($i=0; $i <count($a) ; $i++) { 
+//         $x[]='../assets/image/'.$a[$i];
+//     }
+//     $x[$i]='../assets/image/'.$b;
+//     return $x;
+// }
+
+function getSousImage1($id){
+    include('base.php');
+    $sql="SELECT nom_sous_image FROM Final_sous_image WHERE id_objet = '$id' ";
+    $result = mysqli_query($bdd,$sql);
+    $donnee = array();
+while($a = mysqli_fetch_assoc($result))
+{
+    $donnee[] = $a;
+}
+return $donnee;    
+}
+function img_principale($id){
+    include('base.php');
+
+     $sql="SELECT * FROM Final_image_objet WHERE id_objet = '$id'";
+     $sqli=mysqli_query($bdd,$sql);
+     $ami=mysqli_fetch_assoc($sqli);
+     return $ami;
+}
+
+function emprunt($id){
+    include('base.php');
+
+    $sql = "SELECT * 
+            FROM Final_emprunt 
+            JOIN Final_objet ON Final_objet.id_objet = Final_emprunt.id_objet 
+            JOIN Final_membre ON Final_membre.id_membre = Final_emprunt.id_membre 
+            WHERE Final_objet.id_objet = '%s'";
+            
+    $sql = sprintf($sql, mysqli_real_escape_string($bdd, $id));
+
+    $result = mysqli_query($bdd, $sql);
+
+    if (!$result) {
+        die("Erreur SQL : " . mysqli_error($bdd) . "<br>Requête : " . $sql);
+    }
+
+    $donnee = array();
+    while ($a = mysqli_fetch_assoc($result)) {
+        $donnee[] = $a;
+    }
+
+    return $donnee; 
+}
+
+function get_fiche_membre($id_membre) {
+    include('base.php');
     
+    // Validation de l'ID
+    if (!is_numeric($id_membre)) {
+        return null;
+    }
+
+    // 1. Requête pour les infos du membre
+    $sql_membre = "SELECT * FROM Final_membre WHERE id_membre = ?";
+    $stmt_membre = mysqli_prepare($bdd, $sql_membre);
+    mysqli_stmt_bind_param($stmt_membre, "i", $id_membre);
+    mysqli_stmt_execute($stmt_membre);
+    $result_membre = mysqli_stmt_get_result($stmt_membre);
+    
+    if (!$result_membre || mysqli_num_rows($result_membre) === 0) {
+        return null;
+    }
+    $membre = mysqli_fetch_assoc($result_membre);
+
+    // 2. Requête pour les objets
+    $sql_objets = "SELECT 
+                    c.id_categorie, c.nom_categorie,
+                    o.id_objet, o.nom_objet,
+                    i.nom_image
+                   FROM Final_objet o
+                   JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie
+                   LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet
+                   WHERE o.id_membre = ?
+                   ORDER BY c.nom_categorie, o.nom_objet";
+    
+    $stmt_objets = mysqli_prepare($bdd, $sql_objets);
+    mysqli_stmt_bind_param($stmt_objets, "i", $id_membre);
+    mysqli_stmt_execute($stmt_objets);
+    $result_objets = mysqli_stmt_get_result($stmt_objets);
+
+    $categories = [];
+    if ($result_objets) {
+        while ($row = mysqli_fetch_assoc($result_objets)) {
+            $cat_id = $row['id_categorie'];
+            
+            if (!isset($categories[$cat_id])) {
+                $categories[$cat_id] = [
+                    'id_categorie' => $row['id_categorie'],
+                    'nom_categorie' => $row['nom_categorie'],
+                    'objets' => []
+                ];
+            }
+            
+            $categories[$cat_id]['objets'][] = [
+                'id_objet' => $row['id_objet'],
+                'nom_objet' => $row['nom_objet'],
+                'image_objet' => $row['nom_image']
+            ];
+        }
+    }
+
+    return [
+        'membre' => $membre,
+        'categories' => array_values($categories)
+    ];
+}
     
 ?>

@@ -78,6 +78,8 @@ $donne = liste_objets_empruntes();
                                     <i class="fas fa-eye"></i> Détails
                                 </a>
                             </div>
+                            <a href="fiche.php?id_objet=<?=$d['id_objet'] ?>&nom_image=<?= $d['nom_image'] ?>&id_image=<?= $d['id_image'] ?>">Aller a la fiche</a>
+                            <a href="ficheMembre.php?id_membre=<?= $d['id_membre'] ?>">Fiche membre</a>
                         </div>
                     </a>
                     </div>

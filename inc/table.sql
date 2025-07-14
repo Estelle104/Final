@@ -155,7 +155,7 @@ LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet
 JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie;
 
 
-CREATE OR REPLACE TABLE Final_sous_image(
+CREATE TABLE Final_sous_image(
     id_sous_image INT AUTO_INCREMENT PRIMARY KEY,
     id_objet INT,
     id_image_principale INT,
@@ -164,3 +164,21 @@ CREATE OR REPLACE TABLE Final_sous_image(
 );
 
 
+CREATE OR REPLACE VIEW v_fiche_membre AS
+SELECT 
+    m.id_membre,
+    m.nom AS nom_membre,
+    m.date_de_naissance,
+    m.genre,
+    m.email,
+    m.ville,
+    m.image_profil,
+    o.id_objet,
+    o.nom_objet,
+    c.id_categorie,
+    c.nom_categorie,
+    i.nom_image AS image_principale
+FROM Final_membre m
+LEFT JOIN Final_objet o ON m.id_membre = o.id_membre
+LEFT JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie
+LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet;

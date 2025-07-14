@@ -34,7 +34,7 @@
                                 <div class="image-item">
                                     <div class="image-name">
                                         <i class="fas fa-image me-2" style="color: var(--primary);"></i>
-                                        <?php echo $donne['nom_sous_image']; ?>
+                                        <img src="../assets/image/<?php echo $donne['nom_sous_image']; ?>" alt="<?php echo $donne['nom_sous_image']; ?>">
                                     </div>
                                 </div>
                             <?php endforeach; ?>
