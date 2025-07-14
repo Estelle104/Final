@@ -20,15 +20,18 @@
     }
     if($page == "inscription"){
         $nom = $_POST['nom'] ?? '';
-        $prenom = $_POST['prenom'] ?? '';
+        $date = $_POST['date'] ?? '';
+        $ville = $_POST['ville'] ?? '';
         $email = $_POST['email'] ?? '';
         $mdp = $_POST['mdp'] ?? '';
-        $type_user = $_POST['type_utilisateur'] ?? '';
+        $genre = $_POST['genre'] ?? '';
             
-        if(inscription($nom, $prenom, $email, $mdp ,$type_user)) {
+        if(inscription($nom, $email, $mdp ,$date,$genre,$ville)) {
+            echo inscription($nom, $email, $mdp ,$date,$genre,$ville);
             $_SESSION['success'] = "Inscription réussie! Vous pouvez vous connecter";
             header('Location: login.php?page=connexion');
         } else {
+            echo inscription($nom, $email, $mdp ,$date,$genre,$ville);
             $_SESSION['error'] = "Erreur lors de l'inscription";
             header('Location: login.php?page=inscription');
         }

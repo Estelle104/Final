@@ -5,7 +5,7 @@
     </div>
     
     <div class="card-body p-5">
-        <form action="traitement/traitementConnect.php" method="post">
+        <form action="traitementConnect.php" method="post">
             <input type="hidden" name="page" value="<?php echo $page ?>">
             <div class="mb-4">
                 <label for="email" class="form-label text-secondary">Nom</label>
@@ -14,20 +14,14 @@
                        placeholder="Entrer votre nom" required>
             </div>
 
-            <div class="mb-4">
-                <label for="email" class="form-label text-secondary">Prenom</label>
-                <input type="text" class="form-control form-control-lg" 
-                       id="prenom" name="prenom" 
-                       placeholder="Entrer votre prenom" required>
-            </div>
+           
 
             <div class="mb-4">
-                <label for="type_utilisateur" class="form-label text-secondary">Type d'utilisateur</label>
-                    <select class="form-select form-select-lg" id="type_utilisateur" name="type_utilisateur" required>
-                        <option value="" disabled selected>Sélectionnez votre profil</option>
-                        <option value="candidat">Candidat</option>
-                        <option value="recruteur">Recruteur</option>
-                        <option value="admin">Admin</option>
+                <label for="type_utilisateur" class="form-label text-secondary">Genre</label>
+                    <select class="form-select form-select-lg" id="genre" name="genre" required>
+                        <option value="" disabled selected>Genre</option>
+                        <option value="Masculin">Masculin</option>
+                        <option value="Féminin">Féminin</option>
                     </select>
             </div>
 
@@ -36,6 +30,20 @@
                 <input type="email" class="form-control form-control-lg" 
                        id="email" name="email" 
                        placeholder="Entrer votre email" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="form-label text-secondary">Ville</label>
+                <input type="text" class="form-control form-control-lg" 
+                       id="ville" name="ville" 
+                       placeholder="Ville" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="date" class="form-label text-secondary">Date</label>
+                <input type="date" class="form-control form-control-lg" 
+                       id="date" name="date" 
+                       placeholder="date" required>
             </div>
             
             <div class="mb-4">

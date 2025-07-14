@@ -1,8 +1,8 @@
-CREATE OR REPLACE DATABASE Final;
-USE Final;
+-- CREATE TABLEASE Final;
+-- USE Final;
 
 -- Table des membres
-CREATE OR REPLACE TABLE Final_membre (
+CREATE TABLE Final_membre (
     id_membre INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50),
     date_de_naissance DATETIME,
@@ -14,13 +14,13 @@ CREATE OR REPLACE TABLE Final_membre (
 );
 
 -- Table des catégories d'objets
-CREATE OR REPLACE TABLE Final_categorie_objet(
+CREATE TABLE Final_categorie_objet(
     id_categorie INT AUTO_INCREMENT PRIMARY KEY,
     nom_categorie VARCHAR(100)
 );
 
 -- Table des objets
-CREATE OR REPLACE TABLE Final_objet (
+CREATE TABLE Final_objet (
     id_objet INT AUTO_INCREMENT PRIMARY KEY,
     nom_objet VARCHAR(100),
     id_categorie INT,
@@ -30,7 +30,7 @@ CREATE OR REPLACE TABLE Final_objet (
 );
 
 -- Table des images des objets
-CREATE OR REPLACE TABLE Final_image_objet(
+CREATE TABLE Final_image_objet(
     id_image INT AUTO_INCREMENT PRIMARY KEY,
     id_objet INT,
     nom_image VARCHAR(100),
@@ -38,7 +38,7 @@ CREATE OR REPLACE TABLE Final_image_objet(
 );
 
 -- Table des emprunts
-CREATE OR REPLACE TABLE Final_emprunt(
+CREATE TABLE Final_emprunt(
     id_emprunt INT AUTO_INCREMENT PRIMARY KEY,
     id_objet INT,
     id_membre INT,
@@ -109,3 +109,47 @@ INSERT INTO Final_emprunt (id_objet, id_membre, date_emprunt, date_retour) VALUE
 (21, 4, '2023-10-08 08:45:00', '2023-10-15 08:45:00'),  -- Diana emprunte l'épilateur de Charlie
 (25, 1, '2023-10-09 17:00:00', '2023-10-16 17:00:00'),  -- Alice emprunte la clé dynamométrique de Charlie
 (31, 3, '2023-10-10 12:10:00', '2023-10-17 12:10:00');  -- Charlie emprunte le rasoir de Diana
+
+UPDATE Final_emprunt SET date_retour = '2030-12-01 14:00:00';
+
+CREATE TABLE v_emprunts_en_cours AS
+SELECT o.nom_objet, i.nom_image,e.date_emprunt,
+    CASE 
+        WHEN e.date_retour > NOW() THEN e.date_retour 
+        ELSE NULL 
+    END AS date_retour,
+    m.nom AS emprunteur
+FROM Final_emprunt e
+JOIN Final_objet o ON e.id_objet = o.id_objet
+JOIN Final_membre m ON e.id_membre = m.id_membre
+LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet;
+
+CREATE TABLE v_emprunts AS
+SELECT 
+    o.nom_objet,
+    i.nom_image,
+    e.date_emprunt,
+    e.date_retour,
+    m.nom AS emprunteur
+FROM Final_emprunt e
+JOIN Final_objet o ON e.id_objet = o.id_objet
+JOIN Final_membre m ON e.id_membre = m.id_membre
+LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet;
+
+CREATE TABLE v_objets_empruntes_detailles AS
+SELECT 
+    o.nom_objet,
+    i.nom_image,
+    e.date_emprunt,
+    CASE 
+        WHEN e.date_retour > NOW() THEN e.date_retour 
+        ELSE NULL 
+    END AS date_retour,
+    m.nom AS emprunteur,
+    c.nom_categorie,
+    o.id_categorie
+FROM Final_emprunt e
+JOIN Final_objet o ON e.id_objet = o.id_objet
+JOIN Final_membre m ON e.id_membre = m.id_membre
+LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet
+JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie;
