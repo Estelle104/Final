@@ -1,5 +1,5 @@
--- CREATE TABLEASE Final;
--- USE Final;
+CREATE DATABASE Final;
+USE Final;
 
 -- Table des membres
 CREATE TABLE Final_membre (
@@ -112,7 +112,7 @@ INSERT INTO Final_emprunt (id_objet, id_membre, date_emprunt, date_retour) VALUE
 
 UPDATE Final_emprunt SET date_retour = '2030-12-01 14:00:00';
 
-CREATE TABLE v_emprunts_en_cours AS
+CREATE VIEW v_emprunts_en_cours AS
 SELECT o.nom_objet, i.nom_image,e.date_emprunt,
     CASE 
         WHEN e.date_retour > NOW() THEN e.date_retour 
@@ -124,7 +124,7 @@ JOIN Final_objet o ON e.id_objet = o.id_objet
 JOIN Final_membre m ON e.id_membre = m.id_membre
 LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet;
 
-CREATE TABLE v_emprunts AS
+CREATE VIEW v_emprunts AS
 SELECT 
     o.nom_objet,
     i.nom_image,
@@ -136,7 +136,7 @@ JOIN Final_objet o ON e.id_objet = o.id_objet
 JOIN Final_membre m ON e.id_membre = m.id_membre
 LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet;
 
-CREATE TABLE v_objets_empruntes_detailles AS
+CREATE VIEW v_objets_empruntes_detailles AS
 SELECT 
     o.nom_objet,
     i.nom_image,
@@ -153,3 +153,11 @@ JOIN Final_objet o ON e.id_objet = o.id_objet
 JOIN Final_membre m ON e.id_membre = m.id_membre
 LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet
 JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie;
+
+
+CREATE OR REPLACE TABLE Final_sous_image(
+    id_sous_image INT AUTO_INCREMENT PRIMARY KEY,
+    id_image_principale INT,
+    nom_sous_image VARCHAR(100),
+    FOREIGN KEY (id_image_principale) REFERENCES Final_image_objet(id_image) 
+);

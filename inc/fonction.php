@@ -144,6 +144,23 @@
         return $categories;
     }
     
+    function get_sous_image($id_image_principale){
+        include('base.php');
+
+        $sql = "SELECT * FROM Final_sous_image WHERE id_image_principale = '$id_image_principale'";
+        $query = mysqli_query($bdd, $sql);
+    
+        if (!$query) {
+            die("Erreur SQL (get_all_categories) : " . mysqli_error($bdd));
+        }
+    
+        $categories = [];
+        while ($row = mysqli_fetch_assoc($query)) {
+            $categories[] = $row;
+        }
+    
+        return $categories;
+    }
 
     
     
