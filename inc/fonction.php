@@ -328,5 +328,30 @@ function joursRestants($date_future) {
     
     return ceil(($future - $now) / (60 * 60 * 24));
 }
+
+function get_emprunts_par_membre($id_membre) {
+    include('base.php');
+
+    $sql = "SELECT e.*, o.nom_objet, i.nom_image, o.id_objet
+            FROM Final_emprunt e
+            JOIN Final_objet o ON e.id_objet = o.id_objet
+            LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet
+            WHERE e.id_membre = '$id_membre'";
+
+    $query = mysqli_query($bdd, $sql);
+
+    if (!$query) {
+        die("Erreur SQL : " . mysqli_error($bdd));
+    }
+
+    $emprunts = [];
+    while ($row = mysqli_fetch_assoc($query)) {
+        $emprunts[] = $row;
+    }
+
+    return $emprunts;
+}
+    
+
     
 ?>

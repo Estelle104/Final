@@ -4,3 +4,6 @@
 - (...)
 - (...)
 - (...)
+
+creer moi une page qui liste tous les objet retourner de tous les utilissateur,pour chaque utilisateur 
+affiche combien l'etat de l'oobjet retourner est "ok" et combien est "abimer"

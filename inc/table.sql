@@ -182,3 +182,30 @@ FROM Final_membre m
 LEFT JOIN Final_objet o ON m.id_membre = o.id_membre
 LEFT JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie
 LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet;
+
+-- Emprunts récents
+INSERT INTO Final_emprunt (id_objet, id_membre, date_emprunt, date_retour) VALUES
+-- Bob (id=2) emprunte la "Scie électrique" d’Alice (objet id=4)
+(4, 2, '2025-07-10 10:00:00', '2025-07-17 10:00:00'),
+
+-- Diana (id=4) emprunte le "Mixeur" d’Alice (objet id=7)
+(7, 4, '2025-07-11 09:30:00', '2025-07-18 09:30:00'),
+
+-- Alice (id=1) emprunte la "Cocotte-minute" de Charlie (objet id=27)
+(27, 1, '2025-07-09 15:00:00', '2025-07-16 15:00:00'),
+
+-- Charlie (id=3) emprunte le "Tournevis" de Bob (objet id=14)
+(14, 3, '2025-07-08 14:45:00', '2025-07-15 14:45:00'),
+
+-- Bob (id=2) emprunte la "Rasoir électrique" de Diana (objet id=31)
+(31, 2, '2025-07-12 08:00:00', '2025-07-19 08:00:00');
+
+CREATE TABLE Final_retour (
+    id_retour INT AUTO_INCREMENT PRIMARY KEY,
+    id_membre INT,
+    id_objet INT,
+    date_retour DATETIME DEFAULT NOW(),
+    etat VARCHAR(10), -- 'ok' ou 'abime'
+    FOREIGN KEY (id_membre) REFERENCES Final_membre(id_membre),
+    FOREIGN KEY (id_objet) REFERENCES Final_objet(id_objet)
+);

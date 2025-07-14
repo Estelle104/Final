@@ -3,6 +3,9 @@ include('../inc/fonction.php');
 session_start();
 $donne = liste_objets_empruntes();
 
+$id_membre = $_SESSION['user']['id_membre'];
+
+$emprunts = get_emprunts_par_membre($id_membre);
 
 ?>
 <!DOCTYPE html>
@@ -23,6 +26,9 @@ $donne = liste_objets_empruntes();
             <div class="d-flex justify-content-between align-items-center">
                 <h1 class="mb-0">Liste des Objets</h1>
                 <div>
+                    <a href="liste_retour.php" class="btn btn-light me-2">
+                        <i class="fas fa-users me-1"></i> Liste retourner
+                    </a>
                     <a href="#" class="btn btn-light me-2">
                         <i class="fas fa-users me-1"></i> Emprunt en cours
                     </a>
@@ -39,6 +45,39 @@ $donne = liste_objets_empruntes();
             </div>
         </div>
     </header>
+
+    <div class="container">
+    <h1>Objets empruntés</h1>
+
+<?php if (empty($emprunts)) : ?>
+    <p>Vous n'avez emprunté aucun objet.</p>
+<?php else : ?>
+    <table border="1">
+        <tr>
+            <th>Image</th>
+            <th>Objet</th>
+            <th>Date d'emprunt</th>
+            <th>Date retour</th>
+            <th>Action</th>
+        </tr>
+        <?php foreach ($emprunts as $e) : ?>
+            <tr>
+                <td><img src="../assets/image/<?= $e['nom_image'] ?>" width="80"></td>
+                <td><?= $e['nom_objet'] ?></td>
+                <td><?= $e['date_emprunt'] ?></td>
+                <td><?= $e['date_retour'] ?></td>
+                <td>
+                    <form action="retour_emprunt.php" method="GET">
+                        <input type="hidden" name="id_objet" value="<?= $e['id_objet'] ?>">
+                        <input type="hidden" name="id_membre" value="<?= $id_membre ?>">
+                        <button type="submit">Retourner</button>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+<?php endif; ?>
+    </div>
 
     <main class="container py-4">
         <div class="row g-4">
