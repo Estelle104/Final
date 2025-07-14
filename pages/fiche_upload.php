@@ -1,6 +1,8 @@
 <?php
     include('../inc/fonction.php');
     $id_image_principale = $_GET['id_img_principale'];
+    echo $id_image_principale;
+    // $id_image_principale = 7;
     $sous_image = get_sous_image($id_image_principale);
 
 ?>
@@ -20,6 +22,7 @@
     <main>
         <div class="container">
             <?php foreach($sous_image as $donne) {?>
+                <p> <?php echo $donne['nom_sous_image']; ?></p>
                 
             <?php }?>
         </div>

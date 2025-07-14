@@ -161,6 +161,13 @@
     
         return $categories;
     }
+    function add_sous_image($id_image_principale,$nom,$id_objet){
+        include('base.php');
+
+        $sql="INSERT INTO Final_sous_image (id_objet,id_image_principale,nom_sous_image) VALUES($id_image_principale,$id_objet,$nom)";
+        $query = mysqli_query($bdd, $sql);
+
+    }
 
     
     
