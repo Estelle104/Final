@@ -112,13 +112,13 @@ INSERT INTO Final_emprunt (id_objet, id_membre, date_emprunt, date_retour) VALUE
 
 UPDATE Final_emprunt SET date_retour = '2030-12-01 14:00:00';
 
-CREATE VIEW v_emprunts_en_cours AS
+CREATE OR REPLACE VIEW v_emprunts_en_cours AS
 SELECT o.nom_objet, i.nom_image,e.date_emprunt,
     CASE 
         WHEN e.date_retour > NOW() THEN e.date_retour 
         ELSE NULL 
     END AS date_retour,
-    m.nom AS emprunteur
+    m.nom AS emprunteur, i.id_image, o.id_objet
 FROM Final_emprunt e
 JOIN Final_objet o ON e.id_objet = o.id_objet
 JOIN Final_membre m ON e.id_membre = m.id_membre
@@ -155,7 +155,6 @@ LEFT JOIN Final_image_objet i ON o.id_objet = i.id_objet
 JOIN Final_categorie_objet c ON o.id_categorie = c.id_categorie;
 
 
-<<<<<<< HEAD
 CREATE OR REPLACE TABLE Final_sous_image(
     id_sous_image INT AUTO_INCREMENT PRIMARY KEY,
     id_objet INT,
@@ -182,5 +181,3 @@ INSERT INTO Final_sous_image (id_objet, id_image_principale, nom_sous_image) VAL
 (35, 35, 'diagnostic_ecran.jpg'),
 (38, 38, 'fouet_detail_grille.jpg');
 
-=======
->>>>>>> efa28aa (v2.1Estelle)
